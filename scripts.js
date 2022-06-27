@@ -9,7 +9,7 @@ const ranges = player.querySelectorAll('.player__slider');
 
 const togglePlay = () => {
     video.paused ? video.play() : video.pause();
-};
+}
 function updateBtn() {
     const icon = this.paused ? '►' : '❚ ❚'; 
     toggle.textContent = icon;
@@ -20,10 +20,14 @@ function skip() {
 function handleRange() {
     video[this.name] = this.value; //Set volume and playback rate
 }
-
+const handleProgress = () => {
+    const percent = (video.currentTime / video.duration) * 100 ;
+    progressBar.style.flexBasis = `${percent}%`;
+}
 video.addEventListener("click", togglePlay);
 video.addEventListener("play", updateBtn)
 video.addEventListener("pause", updateBtn)
+video.addEventListener("timeupdate", handleProgress) //Change progressbar as current time is updated
 toggle.addEventListener("click", togglePlay);
 skipButtons.forEach(button => button.addEventListener("click", skip))
 ranges.forEach(range => range.addEventListener("input", handleRange))
